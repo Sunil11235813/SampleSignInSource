@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login Form with Tilt Effect</title>
+  <style>
+    /* Reset default margin and padding for all elements */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Set initial background color */
+    body {
+      background-color: #333; /* Dark grey background */
+      transition: background-color 0.5s ease;
+      font-family: Arial, sans-serif;
+    }
+
+    /* Style the login container */
+    .login-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    /* Style the tilt container */
+    .tilt-container {
+      perspective: 2000px; /* Define perspective for deeper 3D effect */
+    }
+
+    /* Style the login form */
+    .login-form {
+      background-color: transparent; /* Transparent background for glowing effect */
+      border: 5px solid rgba(255, 255, 255, 0.4); /* Bulb glowing effect on border */
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease; /* Added box-shadow transition */
+      transform-style: preserve-3d; /* Preserve 3D transformations */
+      box-shadow: 0 0 10px rgba(0, 123, 255, 0); /* Initial box shadow for glowing effect */
+      position: relative; /* Required for the torch light effect */
+    }
+
+    /* Style form elements */
+    .input-field {
+      width: 100%;
+      margin-bottom: 15px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 10px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .submit-btn:hover {
+      background-color: #0056b3;
+    }
+
+    /* Glowing title effect */
+    .login-form h2 {
+      font-size: 24px;
+      font-weight: bold;
+      background-image: linear-gradient(to right, violet, indigo, blue, green, yellow, orange, red);
+      -webkit-background-clip: text;
+      color: transparent;
+      animation: glowAnimation 2s linear infinite alternate;
+    }
+
+    @keyframes glowAnimation {
+      0% {
+        filter: drop-shadow(0 0 5px violet);
+      }
+      100% {
+        filter: drop-shadow(0 0 10px violet);
+      }
+    }
+
+    /* Torch light effect on focus */
+    .login-form:focus-within {
+      box-shadow: 0 0 50px rgba(255, 255, 255, 0.8), 0 0 100px rgba(255, 255, 255, 0.8), 0 0 150px rgba(255, 255, 255, 0.8);
+    }
+  </style>
+</head>
+<body class="night-theme">
+
+<div class="login-container">
+  <div class="tilt-container" id="tiltContainer">
+    <form class="login-form" id="loginForm">
+      <h2>Sign In</h2>
+      <input type="text" placeholder="Username" class="input-field">
+      <input type="password" placeholder="Password" class="input-field">
+      <button type="submit" class="submit-btn">Login</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  const tiltContainer = document.getElementById('tiltContainer');
+  const loginForm = document.getElementById('loginForm');
+
+  tiltContainer.addEventListener('mousemove', handleMouseMove);
+
+  function handleMouseMove(event) {
+    const rect = loginForm.getBoundingClientRect();
+    const mouseX = event.clientX - rect.left - rect.width / 2;
+    const mouseY = event.clientY - rect.top - rect.height / 2;
+
+    const maxRotation = 45; // Increased maximum rotation angle for deeper 3D effect
+
+    const rotationX = (mouseY / rect.height) * maxRotation;
+    const rotationY = -(mouseX / rect.width) * maxRotation;
+
+    loginForm.style.transform = `rotateX(${rotationX}deg) rotateY(${rotationY}deg)`;
+
+    // Calculate glowing effect based on mouse position
+    const intensityX = Math.abs(mouseX / rect.width);
+    const intensityY = Math.abs(mouseY / rect.height);
+    const glowIntensity = Math.max(intensityX, intensityY) * 20 * 1.5; // Increased glow intensity by 50%
+    loginForm.style.borderColor = `rgba(255, 255, 255, ${glowIntensity / 100})`;
+  }
+
+  // Change body background color when mouse enters the login form
+  loginForm.addEventListener('mouseenter', () => {
+    document.body.style.backgroundColor = '#222'; // Darker background on hover
+  });
+
+  // Reset body background color when mouse leaves the login form
+  loginForm.addEventListener('mouseleave', () => {
+    document.body.style.backgroundColor = '#333'; // Reset to original dark grey background
+  });
+
+  const loginForm1 = document.getElementById('loginForm');
+
+  // Change body background color when mouse enters the login form
+  loginForm1.addEventListener('mouseenter', () => {
+    document.body.style.backgroundColor = '#222'; // Darker background on hover
+  });
+
+  // Reset body background color when mouse leaves the login form
+  loginForm1.addEventListener('mouseleave', () => {
+    document.body.style.backgroundColor = '#333'; // Reset to original dark grey background
+  });
+</script>
+
+</body>
+</html>
